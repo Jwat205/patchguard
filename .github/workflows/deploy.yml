@@ -1,0 +1,20 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ secrets.REGISTRY }} -u ${{ secrets.REGISTRY_USER }} --password-stdin
+      - name: Build & push
+        run: |
+          docker build -t ${{ secrets.REGISTRY }}/patchguard:${{ github.sha }} -f docker/Dockerfile .
+          docker tag ${{ secrets.REGISTRY }}/patchguard:${{ github.sha }} ${{ secrets.REGISTRY }}/patchguard:latest
+          docker push ${{ secrets.REGISTRY }}/patchguard:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY }}/patchguard:latest
+      # - name: Deploy to ECS
+      #   run: aws ecs update-service --cluster prod --service patchguard --force-new-deployment

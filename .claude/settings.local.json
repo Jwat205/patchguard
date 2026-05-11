@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Stop-Process -Name \"wsl\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(if \\($?\\) { \"wsl.exe terminated.\" } else { \"No wsl.exe process found or already stopped.\" })",
+      "PowerShell(Get-Process | Where-Object { $_.MainWindowHandle -ne 0 } | Select-Object Name, Id, MainWindowTitle | Where-Object { $_.MainWindowTitle -ne \"\" } | Sort-Object Name)",
+      "PowerShell(Get-Process)",
+      "PowerShell(Stop-Process -Name \"OpenConsole\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Name \"wslhost\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Name \"wslrelay\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(\"Done.\")",
+      "PowerShell(wsl --shutdown)",
+      "PowerShell(\"WSL shut down.\")",
+      "PowerShell(Get-CimInstance Win32_StartupCommand)",
+      "PowerShell(Stop-Process -Name \"Docker Desktop\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Name \"com.docker.backend\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Name \"dockerd\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command winget -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command choco -ErrorAction SilentlyContinue)",
+      "PowerShell(winget install GnuWin32.Make --silent --accept-package-agreements --accept-source-agreements)",
+      "PowerShell(Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force; Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression)",
+      "PowerShell(scoop install make)",
+      "PowerShell(& \"$env:USERPROFILE\\\\scoop\\\\shims\\\\scoop.cmd\" install make)",
+      "PowerShell(python -m venv C:\\\\Users\\\\LookO\\\\patchguard\\\\.venv)",
+      "PowerShell(py -m venv C:\\\\Users\\\\LookO\\\\patchguard\\\\.venv)"
+    ]
+  }
+}

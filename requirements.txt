@@ -1,0 +1,41 @@
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Databases
+sqlalchemy==2.0.23
+psycopg2-binary==2.9.9
+asyncpg==0.29.0
+pymongo==4.5.0
+motor==3.3.2
+redis==5.0.1
+alembic==1.12.1
+
+# Message Queue
+kafka-python==2.0.2
+
+# Async
+aiohttp==3.9.1
+greenlet==3.0.1
+
+# LLM Integration
+anthropic>=0.20.0
+langchain==0.1.0
+
+# GitHub Integration
+PyGithub==2.1.1
+requests==2.31.0
+
+# Logging & Observability
+python-json-logger==2.0.7
+opentelemetry-api==1.20.0
+opentelemetry-sdk==1.20.0
+opentelemetry-exporter-jaeger==1.20.0
+
+# Configuration
+python-dotenv==1.0.0
+
+# Utilities
+click==8.1.7
