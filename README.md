@@ -1,6 +1,6 @@
 # PatchGuard
 
-An automated code review system that uses AI agents to analyze GitHub pull requests for security vulnerabilities, dependency issues, and code quality.
+An automated code review system that uses AI agents to analyze GitHub pull requests for security vulnerabilities, dependency issues, and code quality — powered by the Gemma family of models for their exceptional context window and token capacity.
 
 ## How it works
 
@@ -17,14 +17,14 @@ PatchGuard listens for GitHub webhook events when a PR is opened or updated. It 
 - PostgreSQL — structured review data
 - MongoDB — raw event and diff storage
 - Redis — caching
-- Anthropic Claude — AI agent backbone
+- Gemma (Google) — AI agent backbone, chosen for its large context window
 
 ## Prerequisites
 
 - Docker & Docker Compose
 - Python 3.10+
 - A GitHub account with a repo you can add webhooks to
-- An [Anthropic API key](https://console.anthropic.com)
+- A Google AI API key (for Gemma access)
 
 ## Setup
 
@@ -39,7 +39,7 @@ PatchGuard listens for GitHub webhook events when a PR is opened or updated. It 
    ```
    GITHUB_TOKEN=...
    GITHUB_WEBHOOK_SECRET=...
-   ANTHROPIC_API_KEY=...
+   GOOGLE_AI_API_KEY=...
    ```
 
 3. Start all services:
@@ -76,7 +76,7 @@ make type-check
 |---|---|
 | `GITHUB_TOKEN` | GitHub personal access token |
 | `GITHUB_WEBHOOK_SECRET` | Secret used to verify webhook payloads |
-| `ANTHROPIC_API_KEY` | Claude API key |
+| `GOOGLE_AI_API_KEY` | Google AI API key for Gemma model access |
 | `DATABASE_URL` | PostgreSQL connection string |
 | `MONGODB_URL` | MongoDB connection string |
 | `REDIS_URL` | Redis connection string |
