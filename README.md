@@ -1,10 +1,10 @@
 # PatchGuard
 
-An automated code review system that uses AI agents to analyze GitHub pull requests for security vulnerabilities, dependency issues, and code quality — powered by the Gemma family of models for their exceptional context window and token capacity.
+An automated code review system that uses AI agents to analyze GitHub pull requests for security vulnerabilities, dependency issues, and code quality — powered by a locally running Gemma 4 model for its exceptional context window and token capacity, with no data leaving your machine.
 
 ## How it works
 
-PatchGuard listens for GitHub webhook events when a PR is opened or updated. It runs the diff through a set of specialized AI agents powered by Claude, then posts a structured review back to the PR.
+PatchGuard listens for GitHub webhook events when a PR is opened or updated. It runs the diff through a set of specialized AI agents powered by a local Gemma 4 instance (via Ollama), then posts a structured review back to the PR.
 
 **Agents:**
 - **Security** — scans for OWASP Top 10 issues, exposed secrets, and injection risks
@@ -17,14 +17,14 @@ PatchGuard listens for GitHub webhook events when a PR is opened or updated. It 
 - PostgreSQL — structured review data
 - MongoDB — raw event and diff storage
 - Redis — caching
-- Gemma (Google) — AI agent backbone, chosen for its large context window
+- Gemma 4 (local via Ollama) — AI agent backbone, runs fully on-device
 
 ## Prerequisites
 
 - Docker & Docker Compose
 - Python 3.10+
 - A GitHub account with a repo you can add webhooks to
-- A Google AI API key (for Gemma access)
+- [Ollama](https://ollama.com) installed and running with the Gemma 4 model pulled
 
 ## Setup
 
@@ -35,21 +35,26 @@ PatchGuard listens for GitHub webhook events when a PR is opened or updated. It 
    cp .env.example .env
    ```
 
-2. Fill in your credentials in `.env`:
+2. Pull the Gemma 4 model via Ollama:
+   ```bash
+   ollama pull gemma4
+   ```
+
+3. Fill in your credentials in `.env`:
    ```
    GITHUB_TOKEN=...
    GITHUB_WEBHOOK_SECRET=...
-   GOOGLE_AI_API_KEY=...
+   OLLAMA_BASE_URL=http://localhost:11434
    ```
 
-3. Start all services:
+4. Start all services:
    ```bash
    make docker-up
    ```
 
    The API will be available at `http://localhost:8000`.
 
-4. Point your GitHub webhook at `http://<your-host>:8000/webhooks/github` with content type `application/json`.
+5. Point your GitHub webhook at `http://<your-host>:8000/webhooks/github` with content type `application/json`.
 
 ## Development
 
@@ -76,7 +81,7 @@ make type-check
 |---|---|
 | `GITHUB_TOKEN` | GitHub personal access token |
 | `GITHUB_WEBHOOK_SECRET` | Secret used to verify webhook payloads |
-| `GOOGLE_AI_API_KEY` | Google AI API key for Gemma model access |
+| `OLLAMA_BASE_URL` | Ollama server URL (default: `http://localhost:11434`) |
 | `DATABASE_URL` | PostgreSQL connection string |
 | `MONGODB_URL` | MongoDB connection string |
 | `REDIS_URL` | Redis connection string |
